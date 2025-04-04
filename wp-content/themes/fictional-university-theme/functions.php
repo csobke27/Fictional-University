@@ -20,4 +20,25 @@
     }
 
     add_action('after_setup_theme', 'fictional_university_features');
+
+    // Add custom post query for events and if the query is the main query
+    // and if the query is not in the admin area
+    function fictional_university_adjust_queries($query) {
+        if(!is_admin() && is_post_type_archive('event') && $query->is_main_query()) {
+            $today = date('Ymd');
+            $query->set('meta_key', 'event_date');
+            $query->set('orderby', 'meta_value_num');
+            $query->set('order', 'ASC');
+            $query->set('meta_query', array(
+                array(
+                    'key' => 'event_date',
+                    'compare' => '>=',
+                    'value' => $today,
+                    'type' => 'numeric'
+                )
+            ));
+        }
+    }
+
+    add_action('pre_get_posts', 'fictional_university_adjust_queries');
 ?>
