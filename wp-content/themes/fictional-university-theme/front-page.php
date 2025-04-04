@@ -15,11 +15,19 @@
           <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
             <?php
             $homepageEvents = new WP_Query(array(
-              'posts_per_page' => 2,
+              'posts_per_page' => -1,
               'post_type' => 'event',
-              // 'meta_key' => 'event_date',
-              // 'orderby' => 'meta_value_num',
-              // 'order' => 'ASC'
+              'orderby' => 'meta_value',
+              'meta_key' => 'event_date',
+              'order' => 'ASC',
+              'meta_query' => array(
+                array( // meta query to only show events that are in the future
+                  'key' => 'event_date',
+                  'compare' => '>=',
+                  'value' => date('Ymd'), // current date in Ymd format
+                  'type' => 'numeric'
+                )
+              )
             ));
 
             while($homepageEvents->have_posts()){
@@ -27,8 +35,13 @@
             ?>
               <div class="event-summary">
                 <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
-                  <span class="event-summary__month"><?php echo get_the_date('M'); ?></span>
-                  <span class="event-summary__day"><?php echo get_the_date('d'); ?></span>
+                  <span class="event-summary__month">
+                    <?php
+                      $eventDate = new DateTime(get_field('event_date')); 
+                      echo $eventDate->format('M'); 
+                    ?>
+                  </span>
+                  <span class="event-summary__day"><?php echo $eventDate->format('d'); ?></span>
                 </a>
                 <div class="event-summary__content">
                   <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink();?>"><?php the_title();?></a></h5>
