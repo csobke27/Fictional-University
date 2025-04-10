@@ -47,14 +47,15 @@ $relatedProfessors = new WP_Query(array(
         ?>
         <li class="professor-card__list-item">
             <a class="professor-card" href="<?php the_permalink();?>">
-                <img class="professor-card__image" src="<?php the_post_thumbnail_url(); ?>" alt="Lighthouse">
+                <img class="professor-card__image" src="<?php the_post_thumbnail_url('professorLandscape'); ?>" alt="professor profile image">
                 <span class="professor-card__name"><?php the_title(); ?></span>
             </a>
         </li>
        
         <?php
-        echo '</ul>';
+        
         }
+        echo '</ul>';
     }
             wp_reset_postdata(); // Reset the post data to the main query
             $relatedEvents = new WP_Query(array(
