@@ -53,6 +53,11 @@
     // Add custom post query for events and if the query is the main query
     // and if the query is not in the admin area
     function fictional_university_adjust_queries($query) {
+        if(!is_admin() && is_post_type_archive('campus') && $query->is_main_query()) {
+            $query->set('orderby', 'title');
+            $query->set('order', 'ASC');
+            $query->set('posts_per_page', -1);
+        }
         if(!is_admin() && is_post_type_archive('program') && $query->is_main_query()) {
             $query->set('orderby', 'title');
             $query->set('order', 'ASC');
@@ -75,4 +80,12 @@
     }
 
     add_action('pre_get_posts', 'fictional_university_adjust_queries');
+
+
+    function universityMapKey($api){
+        $api['key'] = 'YOUR_GOOGLE_MAPS_API_KEY_HERE'; // Replace with your actual Google Maps API key
+        return $api;
+    }
+
+    add_filter('acf/fields/google_map/api', 'universityMapKey');
 ?>
