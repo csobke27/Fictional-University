@@ -38,7 +38,7 @@
         // Register a custom post type for programs
         register_post_type('program', array(
             'show_in_rest' => true,
-            'supports' => array('title', 'editor'),
+            'supports' => array('title'),
             'rewrite' => array('slug' => 'programs'),
             'has_archive' => true,
             'public' => true,
@@ -56,6 +56,7 @@
         register_post_type('professor', array(
             'show_in_rest' => true,
             'supports' => array('title', 'editor', 'thumbnail'),
+            'show_in_rest' => true,
             'public' => true,
             'labels' => array(
                 'name' => 'Professors',

@@ -1,3 +1,5 @@
+import axios from "axios";
+
 class Search {
     constructor() {
         this.addSearchHTML(); // Call the method to add search HTML to the page
@@ -50,25 +52,79 @@ class Search {
 
     performSearch() {
         const query = this.searchInput.value; // Get the current value of the search input
-        // console.log(`Performing search for: ${query}`);
-        this.resultsContainer.innerHTML = `Performing search for: ${query}`;
+        // this.resultsContainer.innerHTML = `Performing search for: ${query}`;
         // Add your search logic here
-        Promise.all([
-            fetch(universityData.root_url+'/wp-json/wp/v2/posts?search=' + this.searchInput.value).then(res => res.json()),
-            fetch(universityData.root_url+'/wp-json/wp/v2/pages?search=' + this.searchInput.value).then(res => res.json())
-        ]).then(([posts, pages]) => {
-            var combinedResults = posts.concat(pages); // Combine results from posts and pages
-            this.resultsContainer.innerHTML = `<h2 class="search-overlay__section-title">General Information</h2>`; // Clear the results container
-            if (combinedResults.length) {
-                this.resultsContainer.innerHTML += `
-                    <ul class="link-list min-list">
-                        ${combinedResults.map(result => `<li><a href="${result.link}">${result.title.rendered}</a>${result.type == 'post' ? ` by ${result.authorName}` : ''}</li>`).join('')}
-                    </ul>
-                    `;
-                this.previousSearchVal = this.searchInput.value; // Store the current value as the previous value
-            } else {
-                this.resultsContainer.innerHTML += "<div>No results found</div>"; // Display a message if no results are found
-            }
+        axios.get(universityData.root_url+'/wp-json/university/v1/search?term=' + this.searchInput.value)
+        .then(response => {
+            const data = response.data;
+            this.resultsContainer.innerHTML = `
+            <div class="row">
+                <div class="one-third">
+                    <h2 class="search-overlay__section-title">General Information</h2>
+                    ${data.generalInfo.length ? `
+                        <ul class="link-list min-list">
+                            ${data.generalInfo.map(result => `<li><a href="${result.permalink}">${result.title}</a>${result.type == 'post' ? ` by ${result.authorName}` : ''}</li>`).join('')}
+                        </ul>
+                    ` : `
+                        <div>No general information match that search.</div>
+                    `}
+                </div>
+                <div class="one-third">
+                    <h2 class="search-overlay__section-title">Programs</h2>
+                    ${data.programs.length ? `
+                        <ul class="link-list min-list">
+                            ${data.programs.map(result => `<li><a href="${result.permalink}">${result.title}</a></li>`).join('')}
+                        </ul>
+                    ` : `
+                        <div>No programs match that search. <a href="${universityData.root_url}/programs">View all programs</a></div>
+                    `}
+                    <h2 class="search-overlay__section-title">Professors</h2>
+                    ${data.professors.length ? `
+                        <ul class="professor-cards">
+                            ${data.professors.map(result => `
+                            <li class="professor-card__list-item">
+                                <a class="professor-card" href="${result.permalink}">
+                                    <img class="professor-card__image" src="${result.landscapeImage}" alt="professor profile image">
+                                    <span class="professor-card__name">${result.title}</span>
+                                </a>
+                            </li>`).join('')}
+                        </ul>
+                    ` : `
+                        <div>No professors match that search.</div>
+                    `}
+                </div>
+                <div class="one-third">
+                    <h2 class="search-overlay__section-title">Campuses</h2>
+                    ${data.campuses.length ? `
+                        <ul class="link-list min-list">
+                            ${data.campuses.map(result => `<li><a href="${result.permalink}">${result.title}</a></li>`).join('')}
+                        </ul>
+                    ` : `
+                        <div>No campuses match that search. <a href="${universityData.root_url}/campuses">View all campuses</a></div>
+                    `}
+                    <h2 class="search-overlay__section-title">Events</h2>
+                    ${data.events.length ? `
+                        ${data.events.map(result => `
+                            <div class="event-summary">
+                                <a class="event-summary__date t-center" href="${result.permalink}">
+                                    <span class="event-summary__month">${result.month}</span>
+                                    <span class="event-summary__day">${result.day}</span>
+                                </a>
+                                <div class="event-summary__content">
+                                <h5 class="event-summary__title headline headline--tiny"><a href="${result.permalink}">${result.title}</a></h5>
+                                <p>
+                                    ${result.description}
+                                    <a href="${result.permalink}" class="nu gray">Read more</a>
+                                </p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    ` : `
+                        <div>No events match that search. <a href="${universityData.root_url}/events">View all events</a></div>
+                    `}
+                </div>
+            </div>
+            `;
             this.isSpinnerVisible = false; // Set spinner visibility state to false
         })
         .catch(() => {

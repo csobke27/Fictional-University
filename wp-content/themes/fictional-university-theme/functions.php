@@ -1,4 +1,6 @@
 <?php
+    require get_theme_file_path('/includes/search-route.php');
+
     function universityCustomRest() {
         register_rest_field('post', 'authorName', array(
             'get_callback' => function() {return get_the_author();}
