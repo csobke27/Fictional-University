@@ -77,7 +77,7 @@ $relatedProfessors = new WP_Query(array(
                 <?php
                 while($relatedEvents->have_posts()){
                 $relatedEvents->the_post(); 
-                get_template_part('template-parts/event'); // Include the event template part
+                get_template_part('template-parts/content-event'); // Include the event template part
                 }
             }
             wp_reset_postdata(); // Reset the post data to the main query

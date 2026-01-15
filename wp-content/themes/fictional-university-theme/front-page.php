@@ -32,7 +32,7 @@
 
             while($homepageEvents->have_posts()){
               $homepageEvents->the_post(); 
-              get_template_part('template-parts/event'); // Include the event template part
+              get_template_part('template-parts/content-event'); // Include the event template part
             }
             ?>
           <p class="t-center no-margin"><a href="<?php echo get_post_type_archive_link('event'); ?>" class="btn btn--blue">View All Events</a></p>
@@ -72,7 +72,7 @@
             }
             wp_reset_postdata(); // Reset the post data to the main query
           ?>
-          <p class="t-center no-margin"><a href="<?php echo site_url('/blog'); ?>" class="btn btn--yellow">View All Blog Posts</a></p>
+          <p class="t-center no-margin"><a href="<?php echo esc_url(site_url('/blog')); ?>" class="btn btn--yellow">View All Blog Posts</a></p>
         </div>
       </div>
     </div>

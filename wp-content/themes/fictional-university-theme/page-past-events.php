@@ -27,7 +27,7 @@
                 while($pastEvents->have_posts()){
                     $pastEvents->the_post(); 
                     $eventDate = new DateTime(get_field('event_date'));
-                    get_template_part('template-parts/event'); // Include the event template part
+                    get_template_part('template-parts/content-event'); // Include the event template part
                 }
                 echo paginate_links(array(
                     'total' => $pastEvents->max_num_pages,

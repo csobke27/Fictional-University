@@ -18,7 +18,7 @@ class Search {
     events() {
         // Loop through all open buttons and attach the click event
         this.openButtons.forEach((button) => {
-            button.addEventListener("click", () => this.openOverlay());
+            button.addEventListener("click", (e) => this.openOverlay(e));
         });
 
         if (this.closeButton) {
@@ -133,7 +133,8 @@ class Search {
         });
     }
 
-    openOverlay() {
+    openOverlay(e) {
+        e.preventDefault(); // Prevent default link behavior
         this.resetSearch(); // Reset the search input and results
         this.overlay.classList.add("search-overlay--active"); // Add the active class to the overlay
         document.querySelector("body").classList.add("body-no-scroll"); // Prevent body from scrolling
