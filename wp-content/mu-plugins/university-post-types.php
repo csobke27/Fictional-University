@@ -21,6 +21,8 @@
         // Register a custom post type for events
         register_post_type('event', array(
             'show_in_rest' => true,
+            'capability_type' => 'event',
+            'map_meta_cap' => true,
             'supports' => array('title', 'editor', 'excerpt'),
             'rewrite' => array('slug' => 'events'),
             'has_archive' => true,
