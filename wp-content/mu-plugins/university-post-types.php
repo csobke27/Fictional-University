@@ -58,8 +58,8 @@
         register_post_type('professor', array(
             'show_in_rest' => true,
             'supports' => array('title', 'editor', 'thumbnail'),
-            'show_in_rest' => true,
             'public' => true,
+            'show_ui' => true,
             'labels' => array(
                 'name' => 'Professors',
                 'add_new_item' => 'Add New Professor',
@@ -68,6 +68,24 @@
                 'singular_name' => 'Professor',
             ),
             'menu_icon' => 'dashicons-welcome-learn-more'
+        ));
+
+        // Register a custom post type for notes
+        register_post_type('note', array(
+            'capability_type' => 'note',
+            'map_meta_cap' => true,
+            'show_in_rest' => true,
+            'supports' => array('title', 'editor'),
+            'public' => false,
+            'show_ui' => true,
+            'labels' => array(
+                'name' => 'Notes',
+                'add_new_item' => 'Add New Note',
+                'edit_item' => 'Edit Note',
+                'all_items' => 'All Notes',
+                'singular_name' => 'Note',
+            ),
+            'menu_icon' => 'dashicons-welcome-write-blog'
         ));
     }
 
