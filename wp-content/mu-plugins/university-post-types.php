@@ -102,6 +102,21 @@
             ),
             'menu_icon' => 'dashicons-heart'
         ));
+
+        // homepage slider post type
+        register_post_type('homepage_slider', array(
+            'supports' => array('title'),
+            'public' => false,
+            'show_ui' => true,
+            'labels' => array(
+                'name' => 'Homepage Sliders',
+                'add_new_item' => 'Add New Homepage Slider',
+                'edit_item' => 'Edit Homepage Slider',
+                'all_items' => 'All Homepage Sliders',
+                'singular_name' => 'Homepage Slider',
+            ),
+            'menu_icon' => 'dashicons-images-alt2'
+        ));
     }
 
     add_action('init', 'fictional_university_post_types');

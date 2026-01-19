@@ -80,7 +80,31 @@
     <div class="hero-slider">
       <div data-glide-el="track" class="glide__track">
         <div class="glide__slides">
-          <div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('/images/bus.jpg'); ?>)">
+          <?php
+            $heroSliders = new WP_Query(array(
+              'post_type' => 'homepage_slider',
+              'orderby' => 'menu_order',
+              'order' => 'ASC'
+            ));
+
+            while($heroSliders->have_posts()){
+              $heroSliders->the_post();
+              $backgroundImage = get_field('slider_background_image');
+              ?>
+              <div class="hero-slider__slide" style="background-image: url(<?php echo esc_url($backgroundImage); ?>)">
+                <div class="hero-slider__interior container">
+                  <div class="hero-slider__overlay">
+                    <h2 class="headline headline--medium t-center"><?php the_title(); ?></h2>
+                    <p class="t-center"><?php the_field('slider_body_text'); ?></p>
+                    <p class="t-center no-margin"><a href="#" class="btn btn--blue"><?php the_field('slider_button_text'); ?></a></p>
+                  </div>
+                </div>
+              </div>
+              <?php
+            }
+            wp_reset_postdata(); // Reset the post data to the main query
+          ?>
+          <!-- <div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('/images/bus.jpg'); ?>)">
             <div class="hero-slider__interior container">
               <div class="hero-slider__overlay">
                 <h2 class="headline headline--medium t-center">Free Transportation</h2>
@@ -97,8 +121,8 @@
                 <p class="t-center no-margin"><a href="#" class="btn btn--blue">Learn more</a></p>
               </div>
             </div>
-          </div>
-          <div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('images/bread.jpg'); ?>)">
+          </div> -->
+          <!-- <div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('images/bread.jpg'); ?>)">
             <div class="hero-slider__interior container">
               <div class="hero-slider__overlay">
                 <h2 class="headline headline--medium t-center">Free Food</h2>
@@ -106,8 +130,9 @@
                 <p class="t-center no-margin"><a href="#" class="btn btn--blue">Learn more</a></p>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
+
         <div class="slider__bullets glide__bullets" data-glide-el="controls[nav]"></div>
       </div>
     </div>
