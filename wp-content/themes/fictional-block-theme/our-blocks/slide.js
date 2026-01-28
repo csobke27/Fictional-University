@@ -12,7 +12,8 @@ registerBlockType('ourblocktheme/slide', {
     attributes: {
         align: { type: 'string', default: 'full' },
         imgId: { type: 'number' },
-        imgUrl: { type: 'string', default: bannerData.fallbackimage }
+        imgUrl: { type: 'string', default: bannerData.fallbackimage },
+        themeimage: { type: 'string'}
     },
     edit: EditComponent,
     save: SaveComponent
@@ -23,11 +24,18 @@ function EditComponent(props) {
         if(props.attributes.imgId) {
             async function fetchImageUrl() {
                 const response = await apiFetch({ path: `/wp/v2/media/${props.attributes.imgId}`, method: 'GET' });
-                props.setAttributes({ imgUrl: response.media_details.sizes.pageBanner.source_url });
+                props.setAttributes({ themeimage: "", imgUrl: response.media_details.sizes.pageBanner.source_url });
             }
             fetchImageUrl();
         }
     }, [props.attributes.imgId]);
+
+    useEffect(function() {
+        if(props.attributes.themeimage) {
+            const imagePath = bannerData.themeimagepath + props.attributes.themeimage;
+            props.setAttributes({ imgUrl: imagePath });
+        }
+    }, []);
 
     function onFileSelect(media) {
         props.setAttributes({imgId: media.id});

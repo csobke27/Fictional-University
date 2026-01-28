@@ -1,4 +1,8 @@
 <?php
+
+if(!empty($attributes['themeimage'])){
+    $attributes['imgUrl'] = get_theme_file_uri('/images/' . $attributes['themeimage']);
+}
 if(!isset($attributes['imgUrl'])) {
     $attributes['imgUrl'] = get_theme_file_uri('/images/library-hero.jpg');
 }
@@ -11,8 +15,3 @@ if(!isset($attributes['imgUrl'])) {
         </div>
     </div>
 </div>
-<!-- <div class="page-banner__content container t-center c-white">
-    <div class="hero-slider__overlay">
-        <?php echo $content; ?>
-    </div>
-</div> -->

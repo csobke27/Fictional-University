@@ -177,6 +177,9 @@ __webpack_require__.r(__webpack_exports__);
     imgUrl: {
       type: 'string',
       default: bannerData.fallbackimage
+    },
+    themeimage: {
+      type: 'string'
     }
   },
   edit: EditComponent,
@@ -191,12 +194,21 @@ function EditComponent(props) {
           method: 'GET'
         });
         props.setAttributes({
+          themeimage: "",
           imgUrl: response.media_details.sizes.pageBanner.source_url
         });
       }
       fetchImageUrl();
     }
   }, [props.attributes.imgId]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(function () {
+    if (props.attributes.themeimage) {
+      const imagePath = bannerData.themeimagepath + props.attributes.themeimage;
+      props.setAttributes({
+        imgUrl: imagePath
+      });
+    }
+  }, []);
   function onFileSelect(media) {
     props.setAttributes({
       imgId: media.id

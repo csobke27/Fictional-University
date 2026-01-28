@@ -198,6 +198,21 @@
     new PlaceholderBlock('eventsandblogs');
     new PlaceholderBlock('header');
     new PlaceholderBlock('footer');
+    new PlaceholderBlock('singlepost');
+    new PlaceholderBlock('page');
+    new PlaceholderBlock('blogindex');
+    new PlaceholderBlock('programarchive');
+    new PlaceholderBlock('singleprogram');
+    new PlaceholderBlock('singleprofessor');
+    new PlaceholderBlock('mynotes');
+    new PlaceholderBlock('eventarchive');
+    new PlaceholderBlock('singleevent');
+    new PlaceholderBlock('campusarchive');
+    new PlaceholderBlock('singlecampus');
+    new PlaceholderBlock('pastevents');
+    new PlaceholderBlock('archive');
+    new PlaceholderBlock("search");
+    new PlaceholderBlock("searchresults");
 
     class JSXBlock {
         function __construct($blockName, $renderCallback = null, $data = null){
@@ -240,5 +255,5 @@
     new JSXBlock('genericheading');
     new JSXBlock('genericbutton');
     new JSXBlock('slideshow', true);
-    new JSXBlock('slide', true);
+    new JSXBlock('slide', true, ['themeimagepath' => get_theme_file_uri('/images/')]);
 ?>
