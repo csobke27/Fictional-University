@@ -1,5 +1,5 @@
 {
-	"name": "interactivity-quiz",
+	"name": "solved-counter",
 	"version": "0.1.0",
 	"description": "An interactive block with the Interactivity API.",
 	"author": "The WordPress Contributors",
@@ -15,8 +15,7 @@
 		"start": "wp-scripts start --experimental-modules"
 	},
 	"dependencies": {
-		"@wordpress/interactivity": "latest",
-		"react-color": "^2.19.3"
+		"@wordpress/interactivity": "latest"
 	},
 	"files": [
 		"[^.]*"

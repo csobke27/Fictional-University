@@ -83,23 +83,6 @@ const {
     },
     toggleTheme() {
       state.isDark = !state.isDark;
-    },
-    guessAttempt() {
-      const context = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
-      if (!context.solved) {
-        if (context.index === context.correctAnswer) {
-          context.showCongrats = true;
-          setTimeout(() => {
-            context.solved = true;
-            state.solvedCount++;
-          }, 1000);
-        } else {
-          context.showSorry = true;
-          setTimeout(() => {
-            context.showSorry = false;
-          }, 2600);
-        }
-      }
     }
   },
   callbacks: {
@@ -109,14 +92,6 @@ const {
       } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
       // Log the value of `isOpen` each time it changes.
       console.log(`Is open: ${isOpen}`);
-    },
-    fadedclass: () => {
-      const context = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
-      if (context.solved && !context.correct) return true;
-    },
-    noclickclass: () => {
-      const context = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.getContext)();
-      if (context.solved && context.correct) return true;
     }
   }
 });
