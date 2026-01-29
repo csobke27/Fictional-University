@@ -6,7 +6,6 @@
   "scripts": {
     "start": "wp-scripts start src/index.js",
     "blocks": "wp-scripts start --experimental-modules",
-    "dev": "wp-scripts start",
     "buildIndex": "wp-scripts build src/index.js",
     "buildBlocks": "wp-scripts build --experimental-modules",
     "build": "run-s buildIndex buildBlocks",
