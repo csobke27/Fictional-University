@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=window.wp.blocks,o=JSON.parse('{"UU":"ourblocktheme/mynotes"}'),c=window.wp.blockEditor,s=window.ReactJSXRuntime;(0,e.registerBlockType)(o.UU,{edit:function(){const e=(0,c.useBlockProps)();return(0,s.jsx)("div",{...e,children:(0,s.jsx)("div",{className:"our-placeholder-block",children:"University My Notes Placeholder"})})}})})();

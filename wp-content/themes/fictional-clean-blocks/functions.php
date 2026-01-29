@@ -173,92 +173,102 @@
         return $data;
     }
 
-    class PlaceholderBlock {
-        function __construct($blockName){
-            $this->blockName = $blockName;
-            add_action('init', array($this, 'onInit'));
-        }
+    // class PlaceholderBlock {
+    //     function __construct($blockName){
+    //         $this->blockName = $blockName;
+    //         add_action('init', array($this, 'onInit'));
+    //     }
 
-        function ourRenderCallback($attributes, $content) {
-            ob_start();
-            require get_theme_file_path("/our-blocks/{$this->blockName}.php");
-            return ob_get_clean();
-        }
+    //     function ourRenderCallback($attributes, $content) {
+    //         ob_start();
+    //         require get_theme_file_path("/our-blocks/{$this->blockName}.php");
+    //         return ob_get_clean();
+    //     }
 
-        function onInit() {
-            wp_register_script(
-                $this->blockName,
-                get_stylesheet_directory_uri() . "/our-blocks/{$this->blockName}.js",
-                array('wp-blocks', 'wp-editor'),
-            );
-            register_block_type("ourblocktheme/{$this->blockName}", ['editor_script' => $this->blockName, 'render_callback' => [$this, 'ourRenderCallback']]);
-        }
+    //     function onInit() {
+    //         wp_register_script(
+    //             $this->blockName,
+    //             get_stylesheet_directory_uri() . "/our-blocks/{$this->blockName}.js",
+    //             array('wp-blocks', 'wp-editor'),
+    //         );
+    //         register_block_type("ourblocktheme/{$this->blockName}", ['editor_script' => $this->blockName, 'render_callback' => [$this, 'ourRenderCallback']]);
+    //     }
+    // }
+
+    add_action('init', 'our_new_blocks');
+    function our_new_blocks() {
+        wp_localize_script(
+            'wp-editor',
+            'ourThemeData',
+            array(
+                'themePath' => get_stylesheet_directory_uri(),
+            )
+        );
+        register_block_type_from_metadata(__DIR__ . '/build/footer');
+        register_block_type_from_metadata(__DIR__ . '/build/header');
+        register_block_type_from_metadata(__DIR__ . '/build/eventsandblogs');
+        register_block_type_from_metadata(__DIR__ . '/build/singlepost');
+        register_block_type_from_metadata(__DIR__ . '/build/page');
+        register_block_type_from_metadata(__DIR__ . '/build/blogindex');
+        register_block_type_from_metadata(__DIR__ . '/build/programarchive');
+        register_block_type_from_metadata(__DIR__ . '/build/singleprogram');
+        register_block_type_from_metadata(__DIR__ . '/build/singleprofessor');
+        register_block_type_from_metadata(__DIR__ . '/build/mynotes');
+        register_block_type_from_metadata(__DIR__ . '/build/archivecampus');
+        register_block_type_from_metadata(__DIR__ . '/build/archiveevent');
+        register_block_type_from_metadata(__DIR__ . '/build/archive');
+        register_block_type_from_metadata(__DIR__ . '/build/pastevents');
+        register_block_type_from_metadata(__DIR__ . '/build/singlecampus');
+        register_block_type_from_metadata(__DIR__ . '/build/singleevent');
+        register_block_type_from_metadata(__DIR__ . '/build/search');
+        register_block_type_from_metadata(__DIR__ . '/build/searchresults');
+
+        register_block_type_from_metadata(__DIR__ . '/build/banner');
+        register_block_type_from_metadata(__DIR__ . '/build/slide');
+        register_block_type_from_metadata(__DIR__ . '/build/slideshow');
+        register_block_type_from_metadata(__DIR__ . '/build/genericheading');
+        register_block_type_from_metadata(__DIR__ . '/build/genericbutton');
     }
 
-    new PlaceholderBlock('eventsandblogs');
-    new PlaceholderBlock('header');
-    new PlaceholderBlock('footer');
-    new PlaceholderBlock('singlepost');
-    new PlaceholderBlock('page');
-    new PlaceholderBlock('blogindex');
-    new PlaceholderBlock('programarchive');
-    new PlaceholderBlock('singleprogram');
-    new PlaceholderBlock('singleprofessor');
-    new PlaceholderBlock('mynotes');
-    new PlaceholderBlock('eventarchive');
-    new PlaceholderBlock('singleevent');
-    new PlaceholderBlock('campusarchive');
-    new PlaceholderBlock('singlecampus');
-    new PlaceholderBlock('pastevents');
-    new PlaceholderBlock('archive');
-    new PlaceholderBlock("search");
-    new PlaceholderBlock("searchresults");
+    // class JSXBlock {
+    //     function __construct($blockName, $renderCallback = null, $data = null){
+    //         $this->blockName = $blockName;
+    //         $this->renderCallback = $renderCallback;
+    //         $this->data = $data;
+    //         add_action('init', array($this, 'onInit'));
+    //     }
 
-    class JSXBlock {
-        function __construct($blockName, $renderCallback = null, $data = null){
-            $this->blockName = $blockName;
-            $this->renderCallback = $renderCallback;
-            $this->data = $data;
-            add_action('init', array($this, 'onInit'));
-        }
+    //     function ourRenderCallback($attributes, $content) {
+    //         ob_start();
+    //         require get_theme_file_path("/our-blocks/{$this->blockName}.php");
+    //         return ob_get_clean();
+    //     }
 
-        function ourRenderCallback($attributes, $content) {
-            ob_start();
-            require get_theme_file_path("/our-blocks/{$this->blockName}.php");
-            return ob_get_clean();
-        }
-
-        function onInit() {
-            wp_register_script(
-                $this->blockName,
-                get_stylesheet_directory_uri() . "/build/{$this->blockName}.js",
-                array('wp-blocks', 'wp-editor'),
-            );
-            if($this->data) {
-                wp_localize_script(
-                    $this->blockName,
-                    "{$this->blockName}Data",
-                    $this->data
-                );
-            }
-            $ourArgs = array(
-                'editor_script' => $this->blockName,
-            );
-            if($this->renderCallback) {
-                $ourArgs['render_callback'] = [$this, 'ourRenderCallback'];
-            }
-            register_block_type("ourblocktheme/{$this->blockName}", $ourArgs);
-        }
-    }
-
-    new JSXBlock('banner', true, ['fallbackimage' => get_theme_file_uri('/images/library-hero.jpg')]);
-    new JSXBlock('genericheading');
-    new JSXBlock('genericbutton');
-    new JSXBlock('slideshow', true);
-    new JSXBlock('slide', true, ['themeimagepath' => get_theme_file_uri('/images/')]);
+    //     function onInit() {
+    //         wp_register_script(
+    //             $this->blockName,
+    //             get_stylesheet_directory_uri() . "/build/{$this->blockName}.js",
+    //             array('wp-blocks', 'wp-editor'),
+    //         );
+    //         if($this->data) {
+    //             wp_localize_script(
+    //                 $this->blockName,
+    //                 "{$this->blockName}Data",
+    //                 $this->data
+    //             );
+    //         }
+    //         $ourArgs = array(
+    //             'editor_script' => $this->blockName,
+    //         );
+    //         if($this->renderCallback) {
+    //             $ourArgs['render_callback'] = [$this, 'ourRenderCallback'];
+    //         }
+    //         register_block_type("ourblocktheme/{$this->blockName}", $ourArgs);
+    //     }
+    // }
 
     // Limit allowed blocks in the editor
-    add_filter('allowed_block_types_all', 'myallowedblocks', 10, 2);
+    // add_filter('allowed_block_types_all', 'myallowedblocks', 10, 2);
     function myallowedblocks($allowed_block_types, $editor_context) {
         if(!empty($editor_context->post)){
             return $allowed_block_types;

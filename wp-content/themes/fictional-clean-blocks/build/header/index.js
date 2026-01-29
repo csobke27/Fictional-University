@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=window.wp.blocks,o=JSON.parse('{"UU":"ourblocktheme/header"}'),r=window.wp.blockEditor,c=window.ReactJSXRuntime;(0,e.registerBlockType)(o.UU,{title:"Our Header",edit:function(){const e=(0,r.useBlockProps)();return(0,c.jsx)("div",{...e,children:(0,c.jsx)("div",{className:"our-placeholder-block",children:"Header Block - Rendered on Frontend"})})}})})();

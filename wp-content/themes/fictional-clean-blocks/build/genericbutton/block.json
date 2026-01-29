@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/truck/block.json",
+  "apiVersion": 3,
+  "name": "ourblocktheme/genericbutton",
+  "editorScript": "file:./index.js",
+  "attributes": {
+    "text": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string",
+      "default": "large"
+    },
+    "colorName": {
+      "type": "string",
+      "default": "blue"
+    },
+    "linkObject": {
+      "type": "object"
+    }
+  }
+}
